@@ -1,7 +1,9 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -9,6 +11,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment extends TimeStamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +29,4 @@ public class Comment extends TimeStamp{
     @Column(columnDefinition = "double default 0")
     private double score;
 
-    public Comment() {
-
-    }
 }

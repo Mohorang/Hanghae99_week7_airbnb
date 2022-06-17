@@ -1,19 +1,21 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Hotel extends TimeStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +28,7 @@ public class Hotel extends TimeStamp {
     private String address;
 
     @Column
-    private String discript;
+    private String description;
 
     @Column
     private int type;
@@ -37,7 +39,8 @@ public class Hotel extends TimeStamp {
     @ElementCollection
     @CollectionTable(name="images",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
     @Column
-    private List<String> images;
+    @Builder.Default
+    private List<String> images = new ArrayList<>();
 
     @Column(columnDefinition = "integer default 1")
     @Min(1)
@@ -91,15 +94,19 @@ public class Hotel extends TimeStamp {
     private Member host;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Category> categories = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Facility> facilities = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
+    @Builder.Default
     private List<BedRoom> bedRooms = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     public String getCheckInTime(){
@@ -115,8 +122,5 @@ public class Hotel extends TimeStamp {
         }else{
             return "오후 " + (checkOutTime-12)+"시";
         }
-    }
-    public Hotel() {
-
     }
 }

@@ -1,13 +1,17 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Facility extends TimeStamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +23,4 @@ public class Facility extends TimeStamp{
     @Column
     private int type;
 
-    public Facility() {
-
-    }
 }
