@@ -42,12 +42,28 @@ public class Hotel extends TimeStamp {
     @Column(columnDefinition = "integer default 1")
     @Min(1)
     @Max(100)
-    private int max;
+    private int maxGuest;
 
     @Column(columnDefinition = "integer default 1")
     @Min(1)
     @Max(100)
-    private int min;
+    private int minGuest;
+
+    @Column
+    @Min(1)
+    @Max(100)
+    private int minDate;
+
+    @Column
+    @Min(1)
+    @Max(100)
+    private int maxDate;
+
+    @Column
+    private String traffic;
+
+    @Column
+    private String region;
 
     @Column
     @Min(0)
