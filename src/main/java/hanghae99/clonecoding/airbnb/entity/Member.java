@@ -1,7 +1,9 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +11,8 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Member extends TimeStamp{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +46,4 @@ public class Member extends TimeStamp{
     @Column
     private String communicate;
 
-    public Member() {
-
-    }
 }
