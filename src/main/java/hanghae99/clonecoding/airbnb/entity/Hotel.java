@@ -44,22 +44,22 @@ public class Hotel extends TimeStamp {
     private List<String> images = new ArrayList<>();
 
     @Column(columnDefinition = "integer default 1")
-    @Min(1)
+    @Min(0)
     @Max(100)
     private int maxGuest;
 
     @Column(columnDefinition = "integer default 1")
-    @Min(1)
+    @Min(0)
     @Max(100)
     private int minGuest;
 
     @Column
-    @Min(1)
+    @Min(0)
     @Max(100)
     private int minDate;
 
     @Column
-    @Min(1)
+    @Min(0)
     @Max(100)
     private int maxDate;
 
