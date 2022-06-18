@@ -115,16 +115,16 @@ public class Hotel extends TimeStamp {
 
     public String getCheckInTime(){
         if(checkInTime / 12 == 0){
-            return "오전 " + checkInTime+"시";
+            return "오전 " + checkInTime + ":00 이후"; // "시" 라고 표현한것을 airbnb 사이트와 일치하게 보여주기 위해 00:00 이후 라고 표현 (팀원과 상의 필요)
         }else{
-            return "오후 " + (checkInTime-12)+"시";
+            return "오후 " + (checkInTime-12)+ ":00 이후";
         }
     }
     public String getCheckOutTime(){
         if(checkOutTime / 12 == 0){
-            return "오전 " + checkOutTime+"시";
+            return "오전 " + checkOutTime + ":00";
         }else{
-            return "오후 " + (checkOutTime-12)+"시";
+            return "오후 " + (checkOutTime-12) + ":00";
         }
     }
 

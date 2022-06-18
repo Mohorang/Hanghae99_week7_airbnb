@@ -46,4 +46,9 @@ public class Member extends TimeStamp{
     @Column
     private String communicate;
 
+    public void updateMember(String name,String picture){
+        this.name = name;
+        this.picture = picture;
+    }
+
 }
