@@ -1,6 +1,7 @@
 package hanghae99.clonecoding.airbnb.dto;
 
 import hanghae99.clonecoding.airbnb.entity.Bed;
+import hanghae99.clonecoding.airbnb.entity.BedRoom;
 import hanghae99.clonecoding.airbnb.entity.Category;
 import hanghae99.clonecoding.airbnb.entity.Facility;
 import lombok.Getter;
@@ -15,15 +16,28 @@ import java.util.List;
 public class registerHotelDto {
     private String title;
     private String address;
-    private String discript;
+    private String description;
+
     private int type;
 
-    private List<Bed> bed = new ArrayList<>();
-
+    private List<BedRoom> bedrooms = new ArrayList<>();
     private List<Facility> facilities = new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
-    private List<Category> category = new ArrayList<>();
+    private String traffic;
+    private String region;
+    private int maxGuest;
+    private int minGuest;
+    private int minDate;
+    private int maxDate;
 
+    private int defaultPrice;
+    private int cleanPrice;
+    private int servicePrice;
+    private int checkInTime;
+    private int checkOutTime;
+
+    private double score;
 
 
 }

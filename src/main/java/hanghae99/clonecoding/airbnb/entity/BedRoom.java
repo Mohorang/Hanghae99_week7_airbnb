@@ -27,6 +27,8 @@ public class BedRoom extends TimeStamp{
     @Column(name ="count")
     @Builder.Default
     private Map<Bed,Integer> bedRooms = new HashMap<>();
+
+
     public ArrayList<Bed> getBeds(){
         return new ArrayList<>(this.bedRooms.keySet());
     }

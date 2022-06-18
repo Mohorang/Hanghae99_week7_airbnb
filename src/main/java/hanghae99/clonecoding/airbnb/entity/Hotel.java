@@ -1,15 +1,18 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import hanghae99.clonecoding.airbnb.dto.registerHotelDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -27,6 +30,7 @@ public class Hotel extends TimeStamp {
     @Column
     private String address;
 
+    @Lob
     @Column
     private String description;
 
@@ -122,5 +126,33 @@ public class Hotel extends TimeStamp {
         }else{
             return "오후 " + (checkOutTime-12)+"시";
         }
+    }
+
+    //숙소 등록
+    public Hotel(String mainImageResult, List<String> imagesResult, registerHotelDto dto){
+
+        this.mainImage = mainImageResult;
+        this.images = imagesResult;
+
+        this.title = dto.getTitle();
+        this.address = dto.getAddress();
+        this.description = dto.getDescription();
+        this.type = dto.getType();
+
+        //bedrooms
+        this.bedRooms = dto.getBedrooms();
+        this.facilities = dto.getFacilities();
+        this.categories = dto.getCategories();
+        this.traffic = dto.getTraffic();
+        this.region = dto.getRegion();
+        this.maxGuest = dto.getMaxGuest();
+        this.minGuest = dto.getMinGuest();
+        this.minDate = dto.getMinDate();
+        this.maxDate = dto.getMaxDate();
+        this.defaultPrice = dto.getDefaultPrice();
+        this.cleanPrice = dto.getCleanPrice();
+        this.servicePrice = dto.getServicePrice();
+        this.checkInTime = dto.getCheckInTime();
+        this.checkOutTime = dto.getCheckOutTime();
     }
 }
