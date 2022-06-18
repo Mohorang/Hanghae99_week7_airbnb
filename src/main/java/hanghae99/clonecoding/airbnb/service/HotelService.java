@@ -21,7 +21,7 @@ public class HotelService {
     private final HotelRepository hotelRepo;
 
     public ResponseHotelDetailDto searchHotelDetail(long id) {
-        Hotel hotel  = hotelRepo.findById(id).orElseThrow(
+        Hotel hotel = hotelRepo.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("Not Find the Registered hotel"));
         List<Integer> facilities = new ArrayList<>();
         List<Integer> categories = new ArrayList<>();

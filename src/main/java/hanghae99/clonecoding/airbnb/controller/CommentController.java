@@ -24,7 +24,7 @@ public class CommentController {
     // code : C00
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public static Map<String, String>handle(IllegalArgumentException e) {
+    public static Map<String, String> handle(IllegalArgumentException e) {
         log.error(e.getMessage(), e);
         Map<String, String> errorAttributes = new HashMap<>();
         errorAttributes.put("code", "C001");
@@ -36,17 +36,19 @@ public class CommentController {
     // 예약한 숙소 페이지에 comment 등록 API
     // ExceptionHandler 로 처리
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/hotel/comment/{id}")
+    @PostMapping("/hotel/{hotel_id}/comment")
     public void registerComment(@AuthenticationPrincipal MemberDetail memberDetail
-            , @PathVariable Long id
+            , @PathVariable Long hotel_id
             , @RequestBody CommentRequestDto commentRequestDto) {
-        commentService.registerComment(id, memberDetail.getMember(), commentRequestDto);
+        commentService.registerComment(hotel_id, memberDetail.getMember(), commentRequestDto);
     }
 
+    //
     @ResponseStatus(HttpStatus.OK)
-    @DeleteMapping("/hotel/comment/{id}")
-    public void deleteComment(@PathVariable long id
+    @DeleteMapping("/hotel/{hotel_id}/comment/{comment_id}")
+    public void deleteComment(@PathVariable long hotel_id
+            , @PathVariable long comment_id
             , @AuthenticationPrincipal MemberDetail memberDetail) {
-        commentService.deleteComment(id, memberDetail.getMember());
+        commentService.deleteComment(hotel_id, comment_id, memberDetail.getMember());
     }
 }
