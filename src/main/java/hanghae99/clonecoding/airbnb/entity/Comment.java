@@ -19,7 +19,7 @@ public class Comment extends TimeStamp{
     private long id;
 
     @Column
-    @Size(min = 2,max = 150)
+    @Size(min = 2,max = 500)  // 150 -> 500 제한으로 변경
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,5 +28,4 @@ public class Comment extends TimeStamp{
 
     @Column(columnDefinition = "double default 0")
     private double score;
-
 }
