@@ -28,7 +28,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 //        Cookie token = CookieUtils.getCookie(request,"member").orElse(null);
 
         String token = request.getHeader("Authorization");
-        log.info("Authorization token : " + token);
         // 유효한 토큰인지 확인
         if (token != null) {
             String jwtToken = token.replace("Bearer ","");
