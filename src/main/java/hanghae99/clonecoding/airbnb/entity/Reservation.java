@@ -34,5 +34,4 @@ public class Reservation extends TimeStamp {
 
     @Column
     private int totalPrice;
-
 }

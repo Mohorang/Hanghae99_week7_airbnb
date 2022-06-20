@@ -51,7 +51,7 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
     public MemberDetail getMemberDetail(String token){
-        long id = Long.parseLong(getUserPk(token));
+        int id = Integer.parseInt(getUserPk(token));
         Member member = repo.findById(id).get();
         return new MemberDetail(member);
     }
