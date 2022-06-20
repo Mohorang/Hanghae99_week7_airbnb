@@ -1,5 +1,6 @@
 package hanghae99.clonecoding.airbnb.repository;
 
+import hanghae99.clonecoding.airbnb.entity.Category;
 import hanghae99.clonecoding.airbnb.entity.Facility;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

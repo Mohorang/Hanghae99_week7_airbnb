@@ -101,7 +101,7 @@ public class Hotel extends TimeStamp {
     @Builder.Default
     private List<Category> categories = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @Builder.Default
     private List<Facility> facilities = new ArrayList<>();
 
@@ -112,6 +112,18 @@ public class Hotel extends TimeStamp {
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
+
+
+    //이미지 삭제를 위해 추가
+    @Column
+    private String mainImageFileName;
+
+    //이미지 삭제를 위해 추가
+    @ElementCollection
+    @CollectionTable(name="imagesFileName",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
+    @Column
+    @Builder.Default
+    private List<String> imagesFileName = new ArrayList<>();
 
     public String getCheckInTime(){
         if(checkInTime / 12 == 0){
@@ -129,10 +141,13 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 등록
-    public Hotel(String mainImageResult, List<String> imagesResult, registerHotelDto dto){
+    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto){
 
-        this.mainImage = mainImageResult;
-        this.images = imagesResult;
+        this.mainImage = mainImageUrl;
+        this.mainImageFileName = mainImageFileName;
+
+        this.imagesFileName = imagesFileName;
+        this.images = imagesUrl;
 
         this.title = dto.getTitle();
         this.address = dto.getAddress();
@@ -140,9 +155,10 @@ public class Hotel extends TimeStamp {
         this.type = dto.getType();
 
         //bedrooms
-        this.bedRooms = dto.getBedrooms();
-        this.facilities = dto.getFacilities();
-        this.categories = dto.getCategories();
+//        this.bedRooms = dto.getBedRoom();
+        //this.facilities = facilities;
+//        this.categories = dto.getCategories();
+
         this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
@@ -155,4 +171,35 @@ public class Hotel extends TimeStamp {
         this.checkInTime = dto.getCheckInTime();
         this.checkOutTime = dto.getCheckOutTime();
     }
+
+    //숙소 수정
+    public void Update(String mainImageUrl, List<String> imagesUrl, registerHotelDto dto){
+        if(mainImageUrl != null) this.mainImage = mainImageUrl;
+        if(!imagesUrl.isEmpty()) this.images = imagesUrl;
+
+        this.title = dto.getTitle();
+        this.address = dto.getAddress();
+        this.description = dto.getDescription();
+        this.type = dto.getType();
+
+        //bedrooms
+//        this.bedRooms = dto.getBedRoom();
+//        this.facilities = dto.getFacilities();
+        this.traffic = dto.getTraffic();
+        this.region = dto.getRegion();
+        this.maxGuest = dto.getMaxGuest();
+        this.minGuest = dto.getMinGuest();
+        this.minDate = dto.getMinDate();
+        this.maxDate = dto.getMaxDate();
+        this.defaultPrice = dto.getDefaultPrice();
+        this.cleanPrice = dto.getCleanPrice();
+        this.servicePrice = dto.getServicePrice();
+        this.checkInTime = dto.getCheckInTime();
+        this.checkOutTime = dto.getCheckOutTime();
+    }
+
+    public void addCategory(Category category){
+        this.categories.add(category);
+    }
+
 }

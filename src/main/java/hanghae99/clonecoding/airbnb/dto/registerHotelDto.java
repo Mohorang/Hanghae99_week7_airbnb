@@ -7,7 +7,6 @@ import hanghae99.clonecoding.airbnb.entity.Facility;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class registerHotelDto {
 
     private int type;
 
-    private List<BedRoom> bedrooms = new ArrayList<>();
-    private List<Facility> facilities = new ArrayList<>();
-    private List<Category> categories = new ArrayList<>();
+//    private List<BedRoom> bedRoom = new ArrayList<>();
+    //private List<Integer> facilities = new ArrayList<>();
+    //private List<Integer> categories = new ArrayList<>();
 
     private String traffic;
     private String region;

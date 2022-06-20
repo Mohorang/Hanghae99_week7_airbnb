@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 
 public class AwsS3Config {
-    @Value("액세스키")
+    @Value("AKIAV7O4Z3GJ7G5CIDUX")
     private String accessKey;
 
-    @Value("시크릿키")
+    @Value("Wkq1XZfdskB72Qw+Cl2HulmXMut/VO0egZ7TAi1Y")
     private String secretKey;
 
     @Value("ap-northeast-2")
