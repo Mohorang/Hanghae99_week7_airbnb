@@ -13,4 +13,7 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category,Integer> {
     @Query("select this_.category from Category this_ where this_.category in :categories")
     public Optional<List<String>> findByCategories(@Param("categories") List<String> categories);
+
+    @Query("select this_ from Category this_  where this_.id in:idlist")
+    public List<String> findByIdList(@Param("idlist") List<Category> idlist);
 }

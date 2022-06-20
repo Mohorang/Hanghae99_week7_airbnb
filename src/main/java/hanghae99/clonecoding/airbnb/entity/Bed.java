@@ -19,5 +19,4 @@ public class Bed extends TimeStamp{
 
     @Column(unique = true)
     private String bedType;
-
 }
