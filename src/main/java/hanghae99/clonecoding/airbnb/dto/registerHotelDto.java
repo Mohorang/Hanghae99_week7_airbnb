@@ -19,7 +19,7 @@ public class registerHotelDto {
 
     private int type;
 
-//    private List<BedRoom> bedRoom = new ArrayList<>();
+    private List<BedRoomDto> bedRoom = new ArrayList<>();
     //private List<Integer> facilities = new ArrayList<>();
     //private List<Integer> categories = new ArrayList<>();
 

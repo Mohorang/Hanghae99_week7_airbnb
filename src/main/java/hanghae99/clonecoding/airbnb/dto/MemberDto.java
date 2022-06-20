@@ -1,13 +1,19 @@
 package hanghae99.clonecoding.airbnb.dto;
 
 import hanghae99.clonecoding.airbnb.entity.Member;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberDto {
     private String name;
     private String email;
