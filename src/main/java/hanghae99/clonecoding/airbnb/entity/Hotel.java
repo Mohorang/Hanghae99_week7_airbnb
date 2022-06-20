@@ -141,7 +141,7 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto){
+    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto , List<Facility> facilities , List<Category> categories){
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
@@ -156,8 +156,8 @@ public class Hotel extends TimeStamp {
 
         //bedrooms
 //        this.bedRooms = dto.getBedRoom();
-        //this.facilities = facilities;
-//        this.categories = dto.getCategories();
+        this.facilities = facilities;
+        this.categories = categories;
 
         this.traffic = dto.getTraffic();
         this.region = dto.getRegion();

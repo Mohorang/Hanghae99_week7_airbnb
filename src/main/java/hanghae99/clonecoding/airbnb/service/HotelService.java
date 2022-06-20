@@ -6,6 +6,7 @@ import hanghae99.clonecoding.airbnb.dto.registerHotelDto;
 import hanghae99.clonecoding.airbnb.entity.Category;
 import hanghae99.clonecoding.airbnb.entity.Facility;
 import hanghae99.clonecoding.airbnb.entity.Hotel;
+import hanghae99.clonecoding.airbnb.repository.CategoryRepository;
 import hanghae99.clonecoding.airbnb.repository.FacilityRepository;
 import hanghae99.clonecoding.airbnb.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +24,25 @@ import java.util.Map;
 public class HotelService {
     private final HotelRepository hotelRepo;
     private final FacilityRepository facilityRepo;
+    private final CategoryRepository categoryRepo;
     private final AwsS3Service s3Service;
 
     public void registerHotel(MultipartFile mainImage, List<MultipartFile> images, registerHotelDto dto){
         Map<String , String> mainImageResult = s3Service.uploadFile(mainImage);
 
+        //Category와 Facilities를 받아와서 저장
+        List<Facility> facilities = new ArrayList<>();
+        List<Category> categories = new ArrayList<>();
+
+        for (int i = 0; i < dto.getFacilities().size(); i++) {
+            facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());
+            System.out.println(facilities.get(i).getId());
+        }
+
+        for (int i = 0; i < dto.getCategory().size(); i++) {
+            categories.add(categoryRepo.findById(categoryRepo.findByIdList(dto.getCategory().get(i))).get());
+            System.out.println(categories.get(i).getId());
+        }
 
         //대표이미지 이외의 이미지에 들어갈 url
         List<Map<String,String>> getImages = getImageList(images);
@@ -43,7 +58,7 @@ public class HotelService {
         String mainImageFileName = mainImageResult.get("fileName");
         String mainImageUrl = mainImageResult.get("url");
 
-        Hotel hotel = new Hotel(mainImageUrl , mainImageFileName ,imagesUrl , imagesFileName, dto);
+        Hotel hotel = new Hotel(mainImageUrl , mainImageFileName ,imagesUrl , imagesFileName, dto , facilities,categories);
         hotelRepo.save(hotel);
     }
 

@@ -14,4 +14,7 @@ import java.util.Optional;
 public interface FacilityRepository extends JpaRepository<Facility,Integer> {
     @Query("Select this_.name from Facility this_ where this_.type=:type")
     public Optional<List<String>> findNameByType(@Param("type") int type);
+
+    @Query("select this_.id from Facility this_  where this_.id in:idlist")
+    public Integer findByIdList(@Param("idlist") Integer idlist);
 }
