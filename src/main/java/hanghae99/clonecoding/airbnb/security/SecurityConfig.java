@@ -26,6 +26,8 @@ public class SecurityConfig {
         httpSecurity.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class);
         httpSecurity
+                .cors()
+                .and()
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
