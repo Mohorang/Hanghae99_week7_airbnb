@@ -2,6 +2,7 @@ package hanghae99.clonecoding.airbnb.controller;
 
 import hanghae99.clonecoding.airbnb.dto.AuthMailDto;
 import hanghae99.clonecoding.airbnb.dto.MemberDto;
+import hanghae99.clonecoding.airbnb.entity.Member;
 import hanghae99.clonecoding.airbnb.security.MemberDetail;
 import hanghae99.clonecoding.airbnb.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,12 @@ public class MemberController {
         return service.checkEmail(dto.getEmail());
     }
 
-
+    @GetMapping("/member")
+    public MemberDto getMemberInfo(@AuthenticationPrincipal MemberDetail detail){
+        Member member = detail.getMember();
+        return MemberDto.builder()
+                .name(member.getName())
+                .picture(member.getPicture())
+                .build();
+    }
 }
