@@ -25,8 +25,6 @@ public class HotelService {
     public void registerHotel(MultipartFile mainImage, List<MultipartFile> images, registerHotelDto dto){
         Map<String , String> mainImageResult = s3Service.uploadFile(mainImage);
 
-        List<Facility> facilities = new ArrayList<>(dto.getFacilities().size());
-
 
         //대표이미지 이외의 이미지에 들어갈 url
         List<Map<String,String>> getImages = getImageList(images);
