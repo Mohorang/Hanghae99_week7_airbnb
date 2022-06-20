@@ -40,6 +40,15 @@ public class Hotel extends TimeStamp {
     @Column
     private String mainImage;
 
+    @Column
+    private int bedRoomCount;
+
+    @Column
+    private int bedCount;
+
+    @Column
+    private int bathRoomCount;
+
     @ElementCollection
     @CollectionTable(name="images",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
     @Column
@@ -104,10 +113,6 @@ public class Hotel extends TimeStamp {
     @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     @Builder.Default
     private List<Facility> facilities = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<BedRoom> bedRooms = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @Builder.Default

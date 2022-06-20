@@ -32,7 +32,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-        String email = request.getParameter("email");
+        String email = request.getParameter("username");
         String password = request.getParameter("password");
         Member member = memberRepo.findByEmail(email).orElse(null);
         if(member != null && encoder.matches(password,member.getPassword())){

@@ -31,8 +31,11 @@ public class OAuthLoginProvider implements OAuth2UserService<OAuth2UserRequest, 
     // DB 유무 확인
     private void saveOrUpdate(OAuthAttributes attributes){
         Member member = repository.findByEmail(attributes.getEmail())
-                .orElse(Member.builder().email(attributes.getEmail()).build());
+                .orElse(null);
+        if(member == null)
+            member = Member.builder().email(attributes.getEmail()).build();
         member.updateMember(attributes.getName(), attributes.getPicture());
         repository.save(member);
+        attributes.setMember(member);
     }
 }

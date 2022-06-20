@@ -6,6 +6,7 @@ import hanghae99.clonecoding.airbnb.entity.Member;
 import hanghae99.clonecoding.airbnb.security.MemberDetail;
 import hanghae99.clonecoding.airbnb.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import javax.mail.MessagingException;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService service;
