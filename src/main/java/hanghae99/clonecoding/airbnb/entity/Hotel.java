@@ -141,7 +141,7 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto , List<Facility> facilities , List<Category> categories){
+    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories , List<BedRoom> bedRooms){
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
@@ -155,7 +155,7 @@ public class Hotel extends TimeStamp {
         this.type = dto.getType();
 
         //bedrooms
-//        this.bedRooms = dto.getBedRoom();
+        this.bedRooms = bedRooms;
         this.facilities = facilities;
         this.categories = categories;
 
@@ -173,18 +173,26 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 수정
-    public void Update(String mainImageUrl, List<String> imagesUrl, registerHotelDto dto){
-        if(mainImageUrl != null) this.mainImage = mainImageUrl;
-        if(!imagesUrl.isEmpty()) this.images = imagesUrl;
+    public void Update(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories , List<BedRoom> bedRooms){
+
+        if(mainImageUrl != null) {
+            this.mainImage = mainImageUrl;
+            this.mainImageFileName = mainImageFileName;
+        }
+
+        if(!imagesUrl.isEmpty()) {
+            this.images = imagesUrl;
+            this.imagesFileName = imagesFileName;
+        }
 
         this.title = dto.getTitle();
         this.address = dto.getAddress();
         this.description = dto.getDescription();
         this.type = dto.getType();
 
-        //bedrooms
-//        this.bedRooms = dto.getBedRoom();
-//        this.facilities = dto.getFacilities();
+        this.categories = categories;
+        this.bedRooms = bedRooms;
+        this.facilities = facilities;
         this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
