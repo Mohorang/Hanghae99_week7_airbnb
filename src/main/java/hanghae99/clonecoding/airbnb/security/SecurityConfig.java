@@ -17,14 +17,10 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtFilter;
     private final OAuthLoginProvider oauthProvider;
     private final OAuth2AuthSuccessHanler successHandler;
-    private final MemberRepository repository;
-    private final JwtProvider provider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        LoginFilter filter = new LoginFilter("/member/login",provider,repository,getEncoder());
         httpSecurity.addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(filter,UsernamePasswordAuthenticationFilter.class);
         httpSecurity
                 .cors()
                 .and()
