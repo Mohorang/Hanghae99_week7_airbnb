@@ -32,21 +32,21 @@ public class HotelService {
         List<Facility> facilities = new ArrayList<>();
         List<Category> categories = new ArrayList<>();
 
-        List<BedRoom> bedRooms = new ArrayList<>();
-
-        //하나의 숙소에 여러개의 침실
-        //BedRoomDto에 침실 data가 들어있음
-        //한 침실에 어떤타입의 침대가 몇개 존재하는지 각각 담겨져있는 BedDto
-        for (int i = 0; i < dto.getBedRoom().size(); i++) {
-            for (int j = 0; j <dto.getBedRoom().get(i).getData().size() ; j++) {
-                Bed bed = bedRepo.findById(bedRepo.findByBedType(dto.getBedRoom().get(i).getData().get(j).getBedType())).get();
-                BedRoom bedRoom = new BedRoom();
-                bedRoom.addBedRooms(bed,dto.getBedRoom().get(i).getData().get(j).getCount());
-                bedRooms.add(bedRoom);
-                bedroomRepo.save(bedRoom);
-                System.out.println(bed.getBedType());
-            }
-        }
+//        List<BedRoom> bedRooms = new ArrayList<>();
+//
+//        //하나의 숙소에 여러개의 침실
+//        //BedRoomDto에 침실 data가 들어있음
+//        //한 침실에 어떤타입의 침대가 몇개 존재하는지 각각 담겨져있는 BedDto
+//        for (int i = 0; i < dto.getBedRoom().size(); i++) {
+//            for (int j = 0; j <dto.getBedRoom().get(i).getData().size() ; j++) {
+//                Bed bed = bedRepo.findById(bedRepo.findByBedType(dto.getBedRoom().get(i).getData().get(j).getBedType())).get();
+//                BedRoom bedRoom = new BedRoom();
+//                bedRoom.addBedRooms(bed,dto.getBedRoom().get(i).getData().get(j).getCount());
+//                bedRooms.add(bedRoom);
+//                bedroomRepo.save(bedRoom);
+//                System.out.println(bed.getBedType());
+//            }
+//        }
 
         for (int i = 0; i < dto.getFacilities().size(); i++) {
             facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());
@@ -72,7 +72,7 @@ public class HotelService {
         String mainImageFileName = mainImageResult.get("fileName");
         String mainImageUrl = mainImageResult.get("url");
 
-        Hotel hotel = new Hotel(mainImageUrl , mainImageFileName ,imagesUrl , imagesFileName, dto , facilities , categories , bedRooms);
+        Hotel hotel = new Hotel(mainImageUrl , mainImageFileName ,imagesUrl , imagesFileName, dto , facilities , categories);
         hotelRepo.save(hotel);
     }
 
@@ -90,20 +90,20 @@ public class HotelService {
         List<BedRoom> bedRooms = new ArrayList<>();
 
         //기존 bedRooms삭제
-        bedroomRepo.deleteAll(hotel.getBedRooms());
-        //하나의 숙소에 여러개의 침실
-        //BedRoomDto에 침실 data가 들어있음
-        //한 침실에 어떤타입의 침대가 몇개 존재하는지 각각 담겨져있는 BedDto
-        for (int i = 0; i < dto.getBedRoom().size(); i++) {
-            for (int j = 0; j <dto.getBedRoom().get(i).getData().size() ; j++) {
-                Bed bed = bedRepo.findById(bedRepo.findByBedType(dto.getBedRoom().get(i).getData().get(j).getBedType())).get();
-                BedRoom bedRoom = new BedRoom();
-                bedRoom.addBedRooms(bed,dto.getBedRoom().get(i).getData().get(j).getCount());
-                bedRooms.add(bedRoom);
-                bedroomRepo.save(bedRoom);
-                System.out.println(bed.getBedType());
-            }
-        }
+//        bedroomRepo.deleteAll(hotel.getBedRooms());
+//        //하나의 숙소에 여러개의 침실
+//        //BedRoomDto에 침실 data가 들어있음
+//        //한 침실에 어떤타입의 침대가 몇개 존재하는지 각각 담겨져있는 BedDto
+//        for (int i = 0; i < dto.getBedRoom().size(); i++) {
+//            for (int j = 0; j <dto.getBedRoom().get(i).getData().size() ; j++) {
+//                Bed bed = bedRepo.findById(bedRepo.findByBedType(dto.getBedRoom().get(i).getData().get(j).getBedType())).get();
+//                BedRoom bedRoom = new BedRoom();
+//                bedRoom.addBedRooms(bed,dto.getBedRoom().get(i).getData().get(j).getCount());
+//                bedRooms.add(bedRoom);
+//                bedroomRepo.save(bedRoom);
+//                System.out.println(bed.getBedType());
+//            }
+//        }
         for (int i = 0; i < dto.getFacilities().size(); i++) {
             facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());
             System.out.println(facilities.get(i).getId());
@@ -147,7 +147,7 @@ public class HotelService {
             }
         }
 
-        hotel.Update(mainImageUrl,mainImageFileName,imagesUrl,imagesFileName,dto,facilities,categories,bedRooms);
+        hotel.Update(mainImageUrl,mainImageFileName,imagesUrl,imagesFileName,dto,facilities,categories);
 
     }
 

@@ -18,10 +18,12 @@ public class registerHotelDto {
     private String description;
 
     private int type;
+    private int bedRoomCount;
+    private int bedCount;
+    private int bathRoomCount;
 
     private List<Integer> facilities = new ArrayList<>();
     private List<Integer> category = new ArrayList<>();
-    private List<BedRoomDto> bedRoom = new ArrayList<>();
 
     private String traffic;
     private String region;

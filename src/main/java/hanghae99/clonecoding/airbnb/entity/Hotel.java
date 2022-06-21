@@ -40,6 +40,7 @@ public class Hotel extends TimeStamp {
     @Column
     private String mainImage;
 
+    //20220620 호텔 엔티티 수정으로 인한 추가
     @Column
     private int bedRoomCount;
 
@@ -48,7 +49,7 @@ public class Hotel extends TimeStamp {
 
     @Column
     private int bathRoomCount;
-
+    //---------
     @ElementCollection
     @CollectionTable(name="images",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
     @Column
@@ -146,7 +147,7 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories , List<BedRoom> bedRooms){
+    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories){
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
@@ -160,7 +161,10 @@ public class Hotel extends TimeStamp {
         this.type = dto.getType();
 
         //bedrooms
-        this.bedRooms = bedRooms;
+        this.bedRoomCount = dto.getBedRoomCount();
+        this.bedCount = dto.getBedCount();
+        this.bathRoomCount = dto.getBathRoomCount();
+
         this.facilities = facilities;
         this.categories = categories;
 
@@ -178,7 +182,7 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 수정
-    public void Update(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories , List<BedRoom> bedRooms){
+    public void Update(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories){
 
         if(mainImageUrl != null) {
             this.mainImage = mainImageUrl;
@@ -195,8 +199,12 @@ public class Hotel extends TimeStamp {
         this.description = dto.getDescription();
         this.type = dto.getType();
 
+
+        this.bedRoomCount = dto.getBedRoomCount();
+        this.bedCount = dto.getBedCount();
+        this.bathRoomCount = dto.getBathRoomCount();
+
         this.categories = categories;
-        this.bedRooms = bedRooms;
         this.facilities = facilities;
         this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
