@@ -25,7 +25,7 @@ public class registerHotelDto {
     private List<Integer> facilities = new ArrayList<>();
     private List<Integer> category = new ArrayList<>();
 
-    private String traffic;
+//    private String traffic;
     private String region;
     private int maxGuest;
     private int minGuest;
@@ -35,8 +35,8 @@ public class registerHotelDto {
     private int defaultPrice;
     private int cleanPrice;
     private int servicePrice;
-    private int checkInTime;
-    private int checkOutTime;
+//    private int checkInTime;
+//    private int checkOutTime;
 
     private double score;
 

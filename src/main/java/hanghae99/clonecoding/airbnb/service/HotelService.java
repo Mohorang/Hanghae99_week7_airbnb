@@ -45,8 +45,8 @@ public class HotelService {
 //                bedRooms.add(bedRoom);
 //                bedroomRepo.save(bedRoom);
 //                System.out.println(bed.getBedType());
-//            }
-//        }
+//           }
+//       }
 
         for (int i = 0; i < dto.getFacilities().size(); i++) {
             facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());

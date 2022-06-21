@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -168,7 +169,7 @@ public class Hotel extends TimeStamp {
         this.facilities = facilities;
         this.categories = categories;
 
-        this.traffic = dto.getTraffic();
+//        this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
@@ -177,8 +178,8 @@ public class Hotel extends TimeStamp {
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
-        this.checkInTime = dto.getCheckInTime();
-        this.checkOutTime = dto.getCheckOutTime();
+//        this.checkInTime = dto.getCheckInTime();
+//        this.checkOutTime = dto.getCheckOutTime();
     }
 
     //숙소 수정
@@ -206,7 +207,7 @@ public class Hotel extends TimeStamp {
 
         this.categories = categories;
         this.facilities = facilities;
-        this.traffic = dto.getTraffic();
+//        this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
@@ -215,8 +216,8 @@ public class Hotel extends TimeStamp {
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
-        this.checkInTime = dto.getCheckInTime();
-        this.checkOutTime = dto.getCheckOutTime();
+//        this.checkInTime = dto.getCheckInTime();
+//        this.checkOutTime = dto.getCheckOutTime();
     }
 
     public void addCategory(Category category){
