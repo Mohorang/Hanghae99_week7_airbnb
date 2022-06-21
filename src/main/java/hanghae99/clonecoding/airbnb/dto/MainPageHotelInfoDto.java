@@ -3,6 +3,7 @@ package hanghae99.clonecoding.airbnb.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import hanghae99.clonecoding.airbnb.entity.Hotel;
+import hanghae99.clonecoding.airbnb.entity.Images;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

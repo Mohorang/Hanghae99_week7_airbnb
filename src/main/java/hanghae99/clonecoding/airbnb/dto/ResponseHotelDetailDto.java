@@ -1,6 +1,5 @@
 package hanghae99.clonecoding.airbnb.dto;
 
-import hanghae99.clonecoding.airbnb.entity.BedRoom;
 import hanghae99.clonecoding.airbnb.entity.Comment;
 import hanghae99.clonecoding.airbnb.entity.Hotel;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.List;
 
 

@@ -13,6 +13,7 @@ import java.util.Collections;
 @AllArgsConstructor
 public class MemberDetail implements UserDetails {
     private Member member;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.EMPTY_LIST;

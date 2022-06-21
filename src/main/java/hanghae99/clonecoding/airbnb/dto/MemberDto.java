@@ -23,9 +23,9 @@ public class MemberDto {
     private String birth;
     private String intro;
     private String communicate;
-    private boolean isHost;
+    private Boolean isHost;
 
-    public MemberDto(Member member){
+    public MemberDto(Member member) {
         this.name = member.getName();
         this.email = member.getEmail();
         this.picture = member.getPicture();
@@ -33,9 +33,10 @@ public class MemberDto {
         this.birth = member.getBirth().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.intro = member.getIntro();
         this.communicate = member.getCommunicate();
-        this.isHost = member.isHost();
+        this.isHost = member.getIsHost();
     }
-    public Member getMember(BCryptPasswordEncoder encoder){
+
+    public Member getMember(BCryptPasswordEncoder encoder) {
         return Member.builder()
                 .name(this.name)
                 .email(this.email)

@@ -19,8 +19,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtProvider provider;
 
     @Autowired
-    public JwtAuthFilter(JwtProvider provider){
-        this.provider=provider;
+    public JwtAuthFilter(JwtProvider provider) {
+        this.provider = provider;
     }
 
     @Override
@@ -30,11 +30,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = request.getHeader("Authorization");
         // 유효한 토큰인지 확인
         if (token != null) {
-            String jwtToken = token.replace("Bearer ","");
+            String jwtToken = token.replace("Bearer ", "");
             if (provider.validateToken(jwtToken)) {
                 // 토큰값과 refresh 토큰으로 유저 정보를 받아옴
                 MemberDetail detail = provider.getMemberDetail(jwtToken);
-                if(detail.getMember() != null) {
+                if (detail.getMember() != null) {
                     Authentication authentication = provider.getAuthentication(detail);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }

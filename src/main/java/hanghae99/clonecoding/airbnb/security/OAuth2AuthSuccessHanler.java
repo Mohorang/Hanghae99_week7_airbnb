@@ -23,15 +23,15 @@ public class OAuth2AuthSuccessHanler extends SavedRequestAwareAuthenticationSucc
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        Member member = ((OAuth2User)authentication.getPrincipal()).getAttribute("member");
+        Member member = ((OAuth2User) authentication.getPrincipal()).getAttribute("member");
         String token = provider.generateToken(member);
-        provider.setTokenHeader(token,response);
+        provider.setTokenHeader(token, response);
         getRedirectStrategy().sendRedirect(request, response, determineTargetUrl(token));
     }
 
     //token을 생성하고 이를 포함한 프론트엔드로의 uri를 생성한다.
     protected String determineTargetUrl(String token) {
-        String targetUri = FinalValue.REDIRECT_URL+"?";
+        String targetUri = FinalValue.REDIRECT_URL + "?";
         return UriComponentsBuilder.fromUriString(targetUri).queryParam("member", token).build().toUriString();
     }
 

@@ -10,10 +10,12 @@ import java.util.List;
 public class FacilityTypeDto {
     private String type;
     private List<FacilityDto> data = new ArrayList<>();
-    public void addFaciltiy(Facility facility){
+
+    public void addFacility(Facility facility) {
         data.add(new FacilityDto(facility));
     }
-    public FacilityTypeDto(String type){
+
+    public FacilityTypeDto(String type) {
         this.type = type;
     }
 }

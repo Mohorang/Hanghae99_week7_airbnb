@@ -6,6 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BedDto {
-    String bedType ; // bed id
+    String bedType; // bed id
     int count; // 개수
 }
