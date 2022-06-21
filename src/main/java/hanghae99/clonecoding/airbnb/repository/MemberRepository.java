@@ -10,8 +10,11 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Integer> {
-    public Optional<Member> findByEmail(String email);
+    @Query("Select this_ from Member this_ where this_.email=:email")
+    public Optional<Member> findByEmail(@Param("email")String email);
 
     @Query("Select count(this_) from Member this_ where this_.email=:email")
     public int checkEmail(@Param("email")String email);
+
+
 }
