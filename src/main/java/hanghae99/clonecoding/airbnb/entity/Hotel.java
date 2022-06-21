@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -40,6 +41,7 @@ public class Hotel extends TimeStamp {
     @Column
     private String mainImage;
 
+    //20220620 호텔 엔티티 수정으로 인한 추가
     @Column
     private int bedRoomCount;
 
@@ -48,7 +50,7 @@ public class Hotel extends TimeStamp {
 
     @Column
     private int bathRoomCount;
-
+    //---------
     @ElementCollection
     @CollectionTable(name="images",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
     @Column
@@ -146,7 +148,7 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto){
+    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories){
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
@@ -160,11 +162,14 @@ public class Hotel extends TimeStamp {
         this.type = dto.getType();
 
         //bedrooms
-//        this.bedRooms = dto.getBedRoom();
-        //this.facilities = facilities;
-//        this.categories = dto.getCategories();
+        this.bedRoomCount = dto.getBedRoomCount();
+        this.bedCount = dto.getBedCount();
+        this.bathRoomCount = dto.getBathRoomCount();
 
-        this.traffic = dto.getTraffic();
+        this.facilities = facilities;
+        this.categories = categories;
+
+//        this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
@@ -173,24 +178,36 @@ public class Hotel extends TimeStamp {
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
-        this.checkInTime = dto.getCheckInTime();
-        this.checkOutTime = dto.getCheckOutTime();
+//        this.checkInTime = dto.getCheckInTime();
+//        this.checkOutTime = dto.getCheckOutTime();
     }
 
     //숙소 수정
-    public void Update(String mainImageUrl, List<String> imagesUrl, registerHotelDto dto){
-        if(mainImageUrl != null) this.mainImage = mainImageUrl;
-        if(!imagesUrl.isEmpty()) this.images = imagesUrl;
+    public void Update(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories){
+
+        if(mainImageUrl != null) {
+            this.mainImage = mainImageUrl;
+            this.mainImageFileName = mainImageFileName;
+        }
+
+        if(!imagesUrl.isEmpty()) {
+            this.images = imagesUrl;
+            this.imagesFileName = imagesFileName;
+        }
 
         this.title = dto.getTitle();
         this.address = dto.getAddress();
         this.description = dto.getDescription();
         this.type = dto.getType();
 
-        //bedrooms
-//        this.bedRooms = dto.getBedRoom();
-//        this.facilities = dto.getFacilities();
-        this.traffic = dto.getTraffic();
+
+        this.bedRoomCount = dto.getBedRoomCount();
+        this.bedCount = dto.getBedCount();
+        this.bathRoomCount = dto.getBathRoomCount();
+
+        this.categories = categories;
+        this.facilities = facilities;
+//        this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
@@ -199,8 +216,8 @@ public class Hotel extends TimeStamp {
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
-        this.checkInTime = dto.getCheckInTime();
-        this.checkOutTime = dto.getCheckOutTime();
+//        this.checkInTime = dto.getCheckInTime();
+//        this.checkOutTime = dto.getCheckOutTime();
     }
 
     public void addCategory(Category category){

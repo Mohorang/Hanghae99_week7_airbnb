@@ -29,6 +29,9 @@ public class BedRoom extends TimeStamp{
     private Map<Bed,Integer> bedRooms = new HashMap<>();
 
 
+    public void addBedRooms(Bed bed , Integer count){
+        this.bedRooms.put(bed,count);
+    }
     public ArrayList<Bed> getBeds(){
         return new ArrayList<>(this.bedRooms.keySet());
     }
