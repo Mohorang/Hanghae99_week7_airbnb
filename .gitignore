@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+### Q Class 를 올리는 것을 방지 하기 위해 ###
+generated
+
 ### STS ###
 .apt_generated
 .classpath
