@@ -50,7 +50,7 @@ public class Hotel extends TimeStamp {
     private int bathRoomCount;
 
     @ElementCollection
-    @CollectionTable(name="images",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
+    @CollectionTable(name = "images", joinColumns = {@JoinColumn(name = "hotel_id", referencedColumnName = "id")})
     @Column
     @Builder.Default
     private List<String> images = new ArrayList<>();
@@ -94,10 +94,10 @@ public class Hotel extends TimeStamp {
     private int servicePrice;
 
     @Column
-    private int checkInTime;
+    private int checkInTime = 15;
 
     @Column
-    private int checkOutTime;
+    private int checkOutTime = 11;
 
     @Column(columnDefinition = "double default 0")
     private double score;
@@ -110,11 +110,11 @@ public class Hotel extends TimeStamp {
     @Builder.Default
     private List<Category> categories = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     private List<Facility> facilities = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
@@ -125,28 +125,29 @@ public class Hotel extends TimeStamp {
 
     //이미지 삭제를 위해 추가
     @ElementCollection
-    @CollectionTable(name="imagesFileName",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
+    @CollectionTable(name = "imagesFileName", joinColumns = {@JoinColumn(name = "hotel_id", referencedColumnName = "id")})
     @Column
     @Builder.Default
     private List<String> imagesFileName = new ArrayList<>();
 
-    public String getCheckInTime(){
-        if(checkInTime / 12 == 0){
+    public String getCheckInTime() {
+        if (checkInTime / 12 == 0) {
             return "오전 " + checkInTime + ":00 이후"; // "시" 라고 표현한것을 airbnb 사이트와 일치하게 보여주기 위해 00:00 이후 라고 표현 (팀원과 상의 필요)
-        }else{
-            return "오후 " + (checkInTime-12)+ ":00 이후";
+        } else {
+            return "오후 " + (checkInTime - 12) + ":00 이후";
         }
     }
-    public String getCheckOutTime(){
-        if(checkOutTime / 12 == 0){
+
+    public String getCheckOutTime() {
+        if (checkOutTime / 12 == 0) {
             return "오전 " + checkOutTime + ":00";
-        }else{
-            return "오후 " + (checkOutTime-12) + ":00";
+        } else {
+            return "오후 " + (checkOutTime - 12) + ":00";
         }
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto){
+    public Hotel(String mainImageUrl, String mainImageFileName, List<String> imagesUrl, List<String> imagesFileName, registerHotelDto dto) {
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
@@ -178,18 +179,14 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 수정
-    public void Update(String mainImageUrl, List<String> imagesUrl, registerHotelDto dto){
-        if(mainImageUrl != null) this.mainImage = mainImageUrl;
-        if(!imagesUrl.isEmpty()) this.images = imagesUrl;
+    public void Update(String mainImageUrl, List<String> imagesUrl, registerHotelDto dto) {
+        if (mainImageUrl != null) this.mainImage = mainImageUrl;
+        if (!imagesUrl.isEmpty()) this.images = imagesUrl;
 
         this.title = dto.getTitle();
         this.address = dto.getAddress();
         this.description = dto.getDescription();
         this.type = dto.getType();
-
-        //bedrooms
-//        this.bedRooms = dto.getBedRoom();
-//        this.facilities = dto.getFacilities();
         this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
@@ -203,8 +200,7 @@ public class Hotel extends TimeStamp {
         this.checkOutTime = dto.getCheckOutTime();
     }
 
-    public void addCategory(Category category){
+    public void addCategory(Category category) {
         this.categories.add(category);
     }
-
 }
