@@ -48,7 +48,7 @@ public class ResponseHotelDetailDto {
                 .address(hotel.getAddress())
                 .description(hotel.getDescription())
                 .type(hotel.getType())
-                .bedRooms(hotel.getBedRooms())
+//                .bedRooms(hotel.getBedRooms())
                 .images(hotel.getImages())
                 .facilities(facilities)
                 .categories(categories)

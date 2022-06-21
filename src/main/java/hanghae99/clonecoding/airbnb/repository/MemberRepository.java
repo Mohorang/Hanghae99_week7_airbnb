@@ -15,4 +15,6 @@ public interface MemberRepository extends JpaRepository<Member,Integer> {
 
     @Query("Select count(this_) from Member this_ where this_.email=:email")
     public int checkEmail(@Param("email")String email);
+
+
 }
