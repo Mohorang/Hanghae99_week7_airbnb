@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.util.List;
 
 
@@ -21,11 +22,14 @@ public class ResponseHotelDetailDto {
     private String address;
     private String description;
     private int type;
-    private List<BedRoom> bedRooms;
+//    private List<BedRoom> bedRooms;
+    private int bedRoomCount;
+    private int bedCount;
+    private int bathRoomCount;
     private List<String> images;
     private List<Integer> facilities;
     private List<Integer> categories;
-    private String traffic;
+//    private String traffic;
     private String region;
     private int maxGuest;
     private int minGuest;
@@ -39,20 +43,23 @@ public class ResponseHotelDetailDto {
     private String checkOutTime;
     private double score;
     private List<Comment> comments;
+    private String mainImageFileName;
+    private List<String> imagesFileName;
 
 
 
-    public static ResponseHotelDetailDto from(Hotel hotel, List<Integer>facilities, List<Integer>categories){
+    public static ResponseHotelDetailDto of(Hotel hotel, List<Integer>facilities, List<Integer>categories, double score){
         return ResponseHotelDetailDto.builder()
                 .title(hotel.getTitle())
                 .address(hotel.getAddress())
                 .description(hotel.getDescription())
                 .type(hotel.getType())
-//                .bedRooms(hotel.getBedRooms())
+                .bedRoomCount(hotel.getBedRoomCount())
+                .bedCount(hotel.getBedCount())
+                .bathRoomCount(hotel.getBathRoomCount())
                 .images(hotel.getImages())
                 .facilities(facilities)
                 .categories(categories)
-                .traffic(hotel.getTraffic())
                 .region(hotel.getRegion())
                 .maxGuest(hotel.getMaxGuest())
                 .minGuest(hotel.getMinGuest())
@@ -63,8 +70,10 @@ public class ResponseHotelDetailDto {
                 .servicePrice(hotel.getServicePrice())
                 .checkInTime(hotel.getCheckInTime())
                 .checkOutTime(hotel.getCheckOutTime())
-                .score(hotel.getScore())
+                .score(score)
                 .comments(hotel.getComments())
+                .mainImageFileName(hotel.getMainImageFileName())
+                .imagesFileName(hotel.getImagesFileName())
                 .build();
     }
 }

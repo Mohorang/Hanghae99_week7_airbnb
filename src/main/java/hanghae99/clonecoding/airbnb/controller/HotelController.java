@@ -25,7 +25,7 @@ public class HotelController {
     private final HotelService service;
 
 
-    //숙소 등록 API
+    //숙소 등록
     @PostMapping("/hotel")
     public ResponseEntity registerHotel(@RequestPart(value = "mainImage") MultipartFile mainImage,
                               @RequestPart(value = "images") List<MultipartFile> images,
@@ -34,7 +34,7 @@ public class HotelController {
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
 
-    //숙소 수정 API
+    //숙소 수정
     @PutMapping("/hotel/{id}")
     public ResponseEntity modifyHotel(@PathVariable long id,
                                       @RequestPart(value = "mainImage", required = false) MultipartFile mainImage,
@@ -44,7 +44,6 @@ public class HotelController {
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
 
-    //숙소 삭제 API
     @DeleteMapping("/hotel/{id}")
     public void deleteHotel(@PathVariable long id){
         service.deleteHotel(id);
