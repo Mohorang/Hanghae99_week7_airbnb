@@ -23,7 +23,7 @@ public class MemberDto {
     private String birth;
     private String intro;
     private String communicate;
-    private boolean isHost;
+    private Boolean isHost;
 
     public MemberDto(Member member){
         this.name = member.getName();

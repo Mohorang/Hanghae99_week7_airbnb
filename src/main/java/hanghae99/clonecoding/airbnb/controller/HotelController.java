@@ -28,8 +28,8 @@ public class HotelController {
     //숙소 등록 API
     @PostMapping("/hotel")
     public ResponseEntity registerHotel(@RequestPart(value = "mainImage") MultipartFile mainImage,
-                              @RequestPart(value = "images") List<MultipartFile> images,
-                              @RequestPart(value = "hotelData") registerHotelDto dto){
+                                        @RequestPart(value = "images") List<MultipartFile> images,
+                                        @RequestPart(value = "hotelData") registerHotelDto dto){
         service.registerHotel(mainImage,images,dto);
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
@@ -48,10 +48,6 @@ public class HotelController {
     @DeleteMapping("/hotel/{id}")
     public void deleteHotel(@PathVariable long id){
         service.deleteHotel(id);
-    }
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 //    @ResponseStatus(HttpStatus.NOT_FOUND)
 //    @ExceptionHandler
