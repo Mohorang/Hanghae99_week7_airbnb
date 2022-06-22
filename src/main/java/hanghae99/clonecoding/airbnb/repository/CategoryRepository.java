@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category,Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("select this_.category from Category this_ where this_.category in :categories")
     public Optional<List<String>> findByCategories(@Param("categories") List<String> categories);
 

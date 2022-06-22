@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member extends TimeStamp{
+public class Member extends TimeStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,7 +21,7 @@ public class Member extends TimeStamp{
     @Column
     private String name;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column
@@ -36,8 +36,8 @@ public class Member extends TimeStamp{
     @Column
     private String picture;
 
-    @Column(columnDefinition = "boolean default false")
-    private boolean isHost;
+    @Column(columnDefinition = "Boolean default false")
+    private Boolean isHost;
 
     // 호스트
     @Column
@@ -46,7 +46,7 @@ public class Member extends TimeStamp{
     @Column
     private String communicate;
 
-    public void updateMember(String name,String picture){
+    public void updateMember(String name, String picture) {
         this.name = name;
         this.picture = picture;
     }

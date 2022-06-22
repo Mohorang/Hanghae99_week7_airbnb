@@ -19,10 +19,10 @@ public class EmailService {
 
     public void sendHtmlEmail(AuthMailDto dto) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setSubject(dto.getTitle());
         helper.setTo(dto.getEmail());
-        message.setContent(dto.buildContent(),"text/html; charset=utf-8");
+        message.setContent(dto.buildContent(), "text/html; charset=utf-8");
         mailSender.send(message);
     }
 }

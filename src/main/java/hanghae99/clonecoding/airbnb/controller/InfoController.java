@@ -14,12 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 public class InfoController {
     private InfoService infoService;
+
     @GetMapping("/categories")
-    public List<CategoryDto> getCategories(){
+    public List<CategoryDto> getCategories() {
         return infoService.getCategories();
     }
+
     @GetMapping("/facilities")
-    public List<FacilityTypeDto> getFacilities(){
+    public List<FacilityTypeDto> getFacilities() {
         return infoService.getFacilities();
     }
 

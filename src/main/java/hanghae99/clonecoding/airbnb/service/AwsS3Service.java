@@ -24,10 +24,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Service {
 
-    @Value("testairbnbbucket")
+    @Value("choisbucket")  //testairbnbbucket
     private String bucket;
 
     private final AmazonS3 amazonS3;
+
     @Transactional
     public Map<String, String> uploadFile(MultipartFile multipartFile) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -38,16 +39,16 @@ public class AwsS3Service {
         //fileName에 파라미터로 들어온 파일의 이름을 할당.
         String originalFileName = multipartFile.getOriginalFilename();
         String fileName = createFileName(originalFileName);
-        try(InputStream inputStream = multipartFile.getInputStream()) {
+        try (InputStream inputStream = multipartFile.getInputStream()) {
             //amazonS3객체의 putObject 메서드로 db에 저장
-            amazonS3.putObject(new PutObjectRequest(bucket, fileName , inputStream, objectMetadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
         }
 
-        Map<String , String> result = new HashMap<>();
-        result.put("url" , String.valueOf(amazonS3.getUrl(bucket,fileName)));
+        Map<String, String> result = new HashMap<>();
+        result.put("url", String.valueOf(amazonS3.getUrl(bucket, fileName)));
         result.put("fileName", fileName);
         return result;
     }
@@ -68,7 +69,7 @@ public class AwsS3Service {
         fileValidate.add(".png");
         fileValidate.add(".jpeg");
         String idxFileName = fileName.substring(fileName.lastIndexOf("."));
-        if (!fileValidate.contains(idxFileName)){
+        if (!fileValidate.contains(idxFileName)) {
             System.out.println("idxFileName = " + idxFileName);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }

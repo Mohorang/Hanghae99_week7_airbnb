@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FacilityRepository extends JpaRepository<Facility,Integer> {
+public interface FacilityRepository extends JpaRepository<Facility, Integer> {
     @Query("Select this_.name from Facility this_ where this_.type=:type")
     public Optional<List<String>> findNameByType(@Param("type") int type);
 

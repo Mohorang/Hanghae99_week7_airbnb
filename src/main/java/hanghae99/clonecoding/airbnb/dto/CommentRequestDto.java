@@ -17,7 +17,7 @@ public class CommentRequestDto {
     private double score;
 
 
-    public Comment ToEntity(Member member){
+    public Comment ToEntity(Member member) {
         return Comment.builder()
                 .comment(this.comment)
                 .member(member)

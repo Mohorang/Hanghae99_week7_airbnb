@@ -16,27 +16,28 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BedRoom extends TimeStamp{
+public class BedRoom extends TimeStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ElementCollection
-    @CollectionTable(name="bedrooms",joinColumns = {@JoinColumn(name = "room_id",referencedColumnName = "id")})
-    @MapKeyJoinColumn(name="bed_id")
-    @Column(name ="count")
+    @CollectionTable(name = "bedrooms", joinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name = "bed_id")
+    @Column(name = "count")
     @Builder.Default
-    private Map<Bed,Integer> bedRooms = new HashMap<>();
+    private Map<Bed, Integer> bedRooms = new HashMap<>();
 
 
-    public void addBedRooms(Bed bed , Integer count){
-        this.bedRooms.put(bed,count);
+    public void addBedRooms(Bed bed, Integer count) {
+        this.bedRooms.put(bed, count);
     }
-    public ArrayList<Bed> getBeds(){
+
+    public ArrayList<Bed> getBeds() {
         return new ArrayList<>(this.bedRooms.keySet());
     }
 
-    public int bedCount(Bed bed){
+    public int bedCount(Bed bed) {
         return this.bedRooms.get(bed);
     }
 }
