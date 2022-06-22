@@ -20,14 +20,14 @@ public class ResponseHotelDetailDto {
     private String address;
     private String description;
     private int type;
-//    private List<BedRoom> bedRooms;
+    //    private List<BedRoom> bedRooms;
     private int bedRoomCount;
     private int bedCount;
     private int bathRoomCount;
     private List<String> images;
     private List<Integer> facilities;
     private List<Integer> categories;
-//    private String traffic;
+    //    private String traffic;
     private String region;
     private int maxGuest;
     private int minGuest;

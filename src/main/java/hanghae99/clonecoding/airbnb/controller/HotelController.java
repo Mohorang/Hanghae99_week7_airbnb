@@ -75,7 +75,7 @@ public class HotelController {
     // 숙소 조회 ( 메인 페이지 )
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/hotels")
-    public List<Hotel> searchHotels(@Valid RequestHotelsDto requestHotelsDto) {
+    public ResponseHotelsDto searchHotels(@Valid RequestHotelsDto requestHotelsDto) {
         return service.searchHotels(requestHotelsDto);
     }
 

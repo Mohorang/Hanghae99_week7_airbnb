@@ -166,12 +166,12 @@ public class HotelService {
 
     // TODO: 2022/06/20
     // main page
-    public List<Hotel> searchHotels(RequestHotelsDto requestHotelsDto) {
-        List<Hotel> hotels = hotelRepositoryCustom.filteringHotels(requestHotelsDto);
-        return hotels;
-//        return ResponseHotelsDto.builder()
-//                .mainPageHotelInfoDtoList(hotels)
-//                .build();
+    public ResponseHotelsDto searchHotels(RequestHotelsDto requestHotelsDto) {
+        List<MainPageHotelInfoDto> hotels = hotelRepositoryCustom.filteringHotels(requestHotelsDto);
+//        return hotels;
+        return ResponseHotelsDto.builder()
+                .mainPageHotelInfoDtoList(hotels)
+                .build();
     }
 
     // 상세 페이지

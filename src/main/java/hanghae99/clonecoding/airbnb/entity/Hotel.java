@@ -1,5 +1,6 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import hanghae99.clonecoding.airbnb.dto.MainPageHotelInfoDto;
 import hanghae99.clonecoding.airbnb.dto.registerHotelDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -147,14 +148,12 @@ public class Hotel extends TimeStamp {
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl, String mainImageFileName, List<String> imagesUrl, List<String> imagesFileName, registerHotelDto dto) {
+    public Hotel(Member host, String mainImageUrl, String mainImageFileName, List<String> imagesUrl, List<String> imagesFileName, registerHotelDto dto, List<Facility> facilities, List<Category> categories) {
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
-
-        this.imagesFileName = imagesFileName;
         this.images = imagesUrl;
-
+        this.imagesFileName = imagesFileName;
         this.title = dto.getTitle();
         this.address = dto.getAddress();
         this.description = dto.getDescription();
@@ -164,13 +163,16 @@ public class Hotel extends TimeStamp {
         this.minGuest = dto.getMinGuest();
         this.minDate = dto.getMinDate();
         this.maxDate = dto.getMaxDate();
+        this.host = host;
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
+        this.facilities = facilities;
+        this.categories = categories;
     }
 
     //숙소 수정
-    public void Update(String mainImageUrl, List<String> imagesUrl, registerHotelDto dto) {
+    public void Update(String mainImageUrl, String mainImageFileName, List<String> imagesUrl, List<String> imagesFileName, registerHotelDto dto, List<Facility> facilities, List<Category> categories) {
         if (mainImageUrl != null) this.mainImage = mainImageUrl;
         if (!imagesUrl.isEmpty()) this.images = imagesUrl;
 
@@ -179,6 +181,8 @@ public class Hotel extends TimeStamp {
         this.description = dto.getDescription();
         this.type = dto.getType();
         this.region = dto.getRegion();
+        this.mainImageFileName = mainImageFileName;
+        this.images = imagesUrl;
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
         this.minDate = dto.getMinDate();
