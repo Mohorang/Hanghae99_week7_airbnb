@@ -24,7 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Service {
 
-    @Value("testairbnbbucket")
+    @Value("choisbucket")  //testairbnbbucket
     private String bucket;
 
     private final AmazonS3 amazonS3;

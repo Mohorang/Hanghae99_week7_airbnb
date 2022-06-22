@@ -8,6 +8,7 @@ import hanghae99.clonecoding.airbnb.repository.CategoryRepository;
 import hanghae99.clonecoding.airbnb.repository.FacilityRepository;
 import hanghae99.clonecoding.airbnb.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class HotelService {
     private final HotelRepository hotelRepo;
     private final FacilityRepository facilityRepo;
@@ -168,6 +170,7 @@ public class HotelService {
     // main page
     public ResponseHotelsDto searchHotels(RequestHotelsDto requestHotelsDto) {
         List<MainPageHotelInfoDto> hotels = hotelRepositoryCustom.filteringHotels(requestHotelsDto);
+        log.info(String.valueOf(hotels.size()));
 //        return hotels;
         return ResponseHotelsDto.builder()
                 .mainPageHotelInfoDtoList(hotels)

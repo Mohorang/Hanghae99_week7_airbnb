@@ -16,16 +16,16 @@ public class MainPageHotelInfoDto {
 
     private Long id;
     private String mainImage;
-    private List<String> images;
+//    private List<String> images;
     private String title;
     private int price;  // 1 박당 defaultPrice 값
     private double score;
 
     @QueryProjection
-    public MainPageHotelInfoDto(Long id, String mainImage, List<String> images, String title, int price, double score) {
+    public MainPageHotelInfoDto(Long id, String mainImage, String title, int price, double score) { // List<String> images
         this.id = id;
         this.mainImage = mainImage;
-        this.images = images;
+//        this.images = images;
         this.title = title;
         this.price = price;
         this.score = score;
@@ -36,7 +36,7 @@ public class MainPageHotelInfoDto {
         return MainPageHotelInfoDto.builder()
                 .id(hotel.getId())
                 .mainImage(hotel.getMainImage())
-                .images(hotel.getImages())
+//                .images(hotel.getImages())
                 .title(hotel.getTitle())
                 .price(hotel.getDefaultPrice())
                 .score(hotel.getScore())
