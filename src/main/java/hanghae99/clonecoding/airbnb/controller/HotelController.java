@@ -48,14 +48,6 @@ public class HotelController {
         return ResponseEntity.ok().body(HttpStatus.CREATED);
     }
 
-//    @DeleteMapping("/hotel/{id}")
-//    public void deleteHotel(@PathVariable long id){
-//        service.deleteHotel(id);
-//    }
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException exception) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
-//    }
 
     // TODO: 2022/06/18
     // IllegalArgumentException 처리 handler

@@ -171,16 +171,20 @@ public class HotelService {
     public ResponseHotelsDto searchHotels(RequestHotelsDto requestHotelsDto) {
         List<MainPageHotelInfoDto> hotels = hotelRepositoryCustom.filteringHotels(requestHotelsDto);
         log.info(String.valueOf(hotels.size()));
-//        return hotels;
         return ResponseHotelsDto.builder()
                 .mainPageHotelInfoDtoList(hotels)
                 .build();
     }
 
     // 상세 페이지
+//    @Transactional
     public ResponseHotelDetailDto searchHotelDetail(long id) {
-        Hotel hotel = hotelRepo.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Not Find the registered hotel"));
+        Hotel hotel = hotelRepo.findByIdWithImages(id);
+//                .orElseThrow(
+//                () -> new IllegalArgumentException("Not Find the registered hotel"));
+
+        log.info(String.valueOf(hotel.getImages()));
+
         List<Integer> facilities = new ArrayList<>();
         List<Integer> categories = new ArrayList<>();
 
@@ -199,7 +203,6 @@ public class HotelService {
         }
 
         double avgScore = totalScore / hotel.getComments().size();
-
 
         return ResponseHotelDetailDto.of(hotel, facilities, categories, avgScore);
     }
