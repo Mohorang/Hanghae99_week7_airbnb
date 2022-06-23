@@ -13,13 +13,13 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comment extends TimeStamp{
+public class Comment extends TimeStamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
-    @Size(min = 2,max = 500)  // 150 -> 500 제한으로 변경
+    @Size(min = 2, max = 500)  // 150 -> 500 제한으로 변경
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)

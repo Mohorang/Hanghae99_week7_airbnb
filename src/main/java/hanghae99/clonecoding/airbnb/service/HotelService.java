@@ -1,15 +1,18 @@
 package hanghae99.clonecoding.airbnb.service;
 
 
-import hanghae99.clonecoding.airbnb.dto.ResponseHotelDetailDto;
-import hanghae99.clonecoding.airbnb.dto.registerHotelDto;
+import hanghae99.clonecoding.airbnb.dto.*;
 import hanghae99.clonecoding.airbnb.entity.*;
-import hanghae99.clonecoding.airbnb.repository.*;
+import hanghae99.clonecoding.airbnb.querydsl.HotelRepositoryCustom;
+import hanghae99.clonecoding.airbnb.repository.CategoryRepository;
+import hanghae99.clonecoding.airbnb.repository.FacilityRepository;
+import hanghae99.clonecoding.airbnb.repository.HotelRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,69 +20,58 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
+@Slf4j
 public class HotelService {
     private final HotelRepository hotelRepo;
     private final FacilityRepository facilityRepo;
     private final CategoryRepository categoryRepo;
-    private final BedRoomRepository bedroomRepo;
-    private final BedRepository bedRepo;
+    private final HotelRepositoryCustom hotelRepositoryCustom;
     private final AwsS3Service s3Service;
 
-    public void registerHotel(MultipartFile mainImage, List<MultipartFile> images, registerHotelDto dto){
-        Map<String , String> mainImageResult = s3Service.uploadFile(mainImage);
 
-        //Category와 Facilities를 받아와서 저장
-        List<Facility> facilities = new ArrayList<>();
-        List<Category> categories = new ArrayList<>();
+    @Transactional
+    public void registerHotel(Member host, MultipartFile mainImage, List<MultipartFile> images, registerHotelDto dto) {
+        if (host.getIsHost()) {
+            Map<String, String> mainImageResult = s3Service.uploadFile(mainImage);
 
-//        List<BedRoom> bedRooms = new ArrayList<>();
-//
-//        //하나의 숙소에 여러개의 침실
-//        //BedRoomDto에 침실 data가 들어있음
-//        //한 침실에 어떤타입의 침대가 몇개 존재하는지 각각 담겨져있는 BedDto
-//        for (int i = 0; i < dto.getBedRoom().size(); i++) {
-//            for (int j = 0; j <dto.getBedRoom().get(i).getData().size() ; j++) {
-//                Bed bed = bedRepo.findById(bedRepo.findByBedType(dto.getBedRoom().get(i).getData().get(j).getBedType())).get();
-//                BedRoom bedRoom = new BedRoom();
-//                bedRoom.addBedRooms(bed,dto.getBedRoom().get(i).getData().get(j).getCount());
-//                bedRooms.add(bedRoom);
-//                bedroomRepo.save(bedRoom);
-//                System.out.println(bed.getBedType());
-//           }
-//       }
+            //Category와 Facilities를 받아와서 저장
+            List<Facility> facilities = new ArrayList<>();
+            List<Category> categories = new ArrayList<>();
 
-        for (int i = 0; i < dto.getFacilities().size(); i++) {
-            facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());
-            System.out.println(facilities.get(i).getId());
-        }
+            for (int i = 0; i < dto.getFacilities().size(); i++) {
+                facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());
+                System.out.println(facilities.get(i).getId());
+            }
 
-        for (int i = 0; i < dto.getCategory().size(); i++) {
-            categories.add(categoryRepo.findById(categoryRepo.findByIdList(dto.getCategory().get(i))).get());
-            System.out.println(categories.get(i).getId());
-        }
+            for (int i = 0; i < dto.getCategory().size(); i++) {
+                categories.add(categoryRepo.findById(categoryRepo.findByIdList(dto.getCategory().get(i))).get());
+                System.out.println(categories.get(i).getId());
+            }
 
-        //대표이미지 이외의 이미지에 들어갈 url
-        List<Map<String,String>> getImages = getImageList(images);
-        List<String> imagesUrl = new ArrayList<>(getImages.size());
-        List<String> imagesFileName = new ArrayList<>(getImages.size());
+            //대표이미지 이외의 이미지에 들어갈 url
+            List<Map<String, String>> getImages = getImageList(images);
+            List<String> imagesUrl = new ArrayList<>(getImages.size());
+            List<String> imagesFileName = new ArrayList<>(getImages.size());
 
-        for (Map<String, String> getImage : getImages) {
-            imagesUrl.add(getImage.get("url"));
-            imagesFileName.add(getImage.get("fileName"));
-        }
+            for (Map<String, String> getImage : getImages) {
+                imagesUrl.add(getImage.get("url"));
+                imagesFileName.add(getImage.get("fileName"));
+            }
 
-        //메인 이미지에 들어갈 이미지의 url
-        String mainImageFileName = mainImageResult.get("fileName");
-        String mainImageUrl = mainImageResult.get("url");
+            //메인 이미지에 들어갈 이미지의 url
+            String mainImageFileName = mainImageResult.get("fileName");
+            String mainImageUrl = mainImageResult.get("url");
 
-        Hotel hotel = new Hotel(mainImageUrl , mainImageFileName ,imagesUrl , imagesFileName, dto , facilities , categories);
-        hotelRepo.save(hotel);
+            Hotel hotel = new Hotel(host, mainImageUrl, mainImageFileName, imagesUrl, imagesFileName, dto, facilities, categories);
+            hotelRepo.save(hotel);
+        } else throw new IllegalArgumentException("User is not host");
     }
 
 
     //메인이미지만 바꿀때 , 그 외 사진바꿀때  아니면 다바꿀때 3가지 경우
     @Transactional
-    public void modifyHotel(long id,MultipartFile mainImage , List<MultipartFile> images , registerHotelDto dto){
+    public void modifyHotel(long id, MultipartFile mainImage, List<MultipartFile> images, registerHotelDto dto) {
 
         Hotel hotel = hotelRepo.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않는 숙소입니다.")
@@ -89,21 +81,6 @@ public class HotelService {
         List<Category> categories = new ArrayList<>();
         List<BedRoom> bedRooms = new ArrayList<>();
 
-        //기존 bedRooms삭제
-//        bedroomRepo.deleteAll(hotel.getBedRooms());
-//        //하나의 숙소에 여러개의 침실
-//        //BedRoomDto에 침실 data가 들어있음
-//        //한 침실에 어떤타입의 침대가 몇개 존재하는지 각각 담겨져있는 BedDto
-//        for (int i = 0; i < dto.getBedRoom().size(); i++) {
-//            for (int j = 0; j <dto.getBedRoom().get(i).getData().size() ; j++) {
-//                Bed bed = bedRepo.findById(bedRepo.findByBedType(dto.getBedRoom().get(i).getData().get(j).getBedType())).get();
-//                BedRoom bedRoom = new BedRoom();
-//                bedRoom.addBedRooms(bed,dto.getBedRoom().get(i).getData().get(j).getCount());
-//                bedRooms.add(bedRoom);
-//                bedroomRepo.save(bedRoom);
-//                System.out.println(bed.getBedType());
-//            }
-//        }
         for (int i = 0; i < dto.getFacilities().size(); i++) {
             facilities.add(facilityRepo.findById(facilityRepo.findByIdList(dto.getFacilities().get(i))).get());
             System.out.println(facilities.get(i).getId());
@@ -115,10 +92,10 @@ public class HotelService {
         }
 
         //메인이미지
-        Map<String , String> mainImageResult = new HashMap<>();
+        Map<String, String> mainImageResult = new HashMap<>();
 
         //메인이미지 이외의 사진들
-        List<Map<String,String>> getImages = new ArrayList<>();
+        List<Map<String, String>> getImages = new ArrayList<>();
         List<String> imagesUrl = new ArrayList<>(images.size());
         List<String> imagesFileName = new ArrayList<>();
 
@@ -127,7 +104,7 @@ public class HotelService {
 
         //메인이미지의 수정여부 체크 후
         //기존이미지 삭제한 후 새로운 이미지 업로드
-        if(mainImage != null){
+        if (mainImage != null) {
             //기존 이미지 삭제 후
             s3Service.deleteFile(hotel.getMainImageFileName());
             //새로운 이미지 업로드
@@ -139,29 +116,31 @@ public class HotelService {
 
         //메인 이미지 이외의 이미지들의 수정여부 체크
         //삭제후 업로드
-        if(!images.isEmpty()){
-            getImages = updateImage(hotel,images);
+        if (!images.isEmpty()) {
+            getImages = updateImage(hotel, images);
             for (Map<String, String> getImage : getImages) {
                 imagesUrl.add(getImage.get("url"));
                 imagesFileName.add(getImage.get("fileName"));
             }
         }
 
-        hotel.Update(mainImageUrl,mainImageFileName,imagesUrl,imagesFileName,dto,facilities,categories);
+        hotel.Update(mainImageUrl, mainImageFileName, imagesUrl, imagesFileName, dto, facilities, categories);
 
     }
 
-    public void deleteHotel(long id){
+    @Transactional
+    public void deleteHotel(long id) {
         Hotel hotel = hotelRepo.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("존재하지 않는 숙소입니다.")
+                () -> new IllegalArgumentException("존재하지 않는 숙소입니다.")
         );
         hotelRepo.delete(hotel);
     }
 
     //이미지 리스트를 받아서 Url 저장하기
-    public List<Map<String,String>> getImageList(List<MultipartFile> images){
-        List<Map<String,String>> imagesResult = new ArrayList<>();
-        Map<String , String> mapImageResult = new HashMap<>();
+    @Transactional
+    public List<Map<String, String>> getImageList(List<MultipartFile> images) {
+        List<Map<String, String>> imagesResult = new ArrayList<>();
+        Map<String, String> mapImageResult = new HashMap<>();
 
         for (int i = 0; i < images.size(); i++) {
             //imageResult.add(s3service.uploadFile(images.get(i)));
@@ -172,7 +151,8 @@ public class HotelService {
         return imagesResult;
     }
 
-    public List<Map<String,String>> updateImage(Hotel hotel ,List<MultipartFile> images) {
+
+    public List<Map<String, String>> updateImage(Hotel hotel, List<MultipartFile> images) {
         List<Map<String, String>> imagesResult = new ArrayList<>();
         Map<String, String> mapImageResult = new HashMap<>();
 
@@ -186,10 +166,25 @@ public class HotelService {
     }
 
 
+    // TODO: 2022/06/20
+    // main page
+    public ResponseHotelsDto searchHotels(RequestHotelsDto requestHotelsDto) {
+        List<MainPageHotelInfoDto> hotels = hotelRepositoryCustom.filteringHotels(requestHotelsDto);
+        log.info(String.valueOf(hotels.size()));
+        return ResponseHotelsDto.builder()
+                .mainPageHotelInfoDtoList(hotels)
+                .build();
+    }
 
+    // 상세 페이지
+//    @Transactional
     public ResponseHotelDetailDto searchHotelDetail(long id) {
-        Hotel hotel = hotelRepo.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Not Find the Registered hotel"));
+        Hotel hotel = hotelRepo.findByIdWithImages(id);
+//                .orElseThrow(
+//                () -> new IllegalArgumentException("Not Find the registered hotel"));
+
+        log.info(String.valueOf(hotel.getImages()));
+
         List<Integer> facilities = new ArrayList<>();
         List<Integer> categories = new ArrayList<>();
 
@@ -201,6 +196,14 @@ public class HotelService {
             categories.add(category.getId());
         }
 
-        return ResponseHotelDetailDto.from(hotel, facilities, categories);
+        double totalScore = 0;
+
+        for (Comment comment : hotel.getComments()) {
+            totalScore += comment.getScore();
+        }
+
+        double avgScore = totalScore / hotel.getComments().size();
+
+        return ResponseHotelDetailDto.of(hotel, facilities, categories, avgScore);
     }
 }

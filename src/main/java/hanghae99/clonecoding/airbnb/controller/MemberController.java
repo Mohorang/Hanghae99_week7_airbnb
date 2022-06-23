@@ -28,23 +28,25 @@ public class MemberController {
     private final BCryptPasswordEncoder encoder;
 
     private final JwtProvider provider;
+
     @PostMapping("/member/host")
-    public void joinHost(@RequestBody MemberDto memberDto){
+    public void joinHost(@RequestBody MemberDto memberDto) {
         service.getMemberRepo().save(memberDto.getMember(service.getEncoder()));
     }
 
     @PostMapping("/member/login")
-    public void login(HttpServletResponse response, @RequestBody LoginDto dto){
+    public void login(HttpServletResponse response, @RequestBody LoginDto dto) {
         Member member = service.getMemberRepo().findByEmail(dto.getUsername());
-        if(member != null && encoder.matches(dto.getPassword(),member.getPassword())){
+        if (member != null && encoder.matches(dto.getPassword(), member.getPassword())) {
             String token = provider.generateToken(member);
-            provider.setTokenHeader(token,response);
-        }else{
+            provider.setTokenHeader(token, response);
+        } else {
             throw new UsernameNotFoundException("Email과 비밀번호를 확인해 주세요.");
         }
     }
+
     @PostMapping("/member/guest")
-    public void joinGuest(@RequestBody MemberDto memberDto){
+    public void joinGuest(@RequestBody MemberDto memberDto) {
         service.getMemberRepo().save(memberDto.getMember(service.getEncoder()));
     }
 
@@ -54,7 +56,7 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-    public MemberDto getMemberInfo(@AuthenticationPrincipal MemberDetail detail){
+    public MemberDto getMemberInfo(@AuthenticationPrincipal MemberDetail detail) {
         Member member = detail.getMember();
         return MemberDto.builder()
                 .name(member.getName())

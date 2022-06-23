@@ -16,29 +16,33 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 @Component
 public class JwtProvider {
     private final String JWT_SECRET = Base64.getEncoder().encodeToString("AirBnb".getBytes());
     private final long ValidTime = 1000L * 60 * 60;
     private MemberRepository repo;
+
     @Autowired
-    public JwtProvider(MemberRepository repo){
+    public JwtProvider(MemberRepository repo) {
         this.repo = repo;
     }
 
-    public void setTokenHeader(String token, HttpServletResponse response){
-        response.setHeader("Authorization","Bearer "+token);
+    public void setTokenHeader(String token, HttpServletResponse response) {
+        response.setHeader("Authorization", "Bearer " + token);
     }
+
     public String generateToken(Member m) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("loginId",m.getEmail());
-        claims.put("name",m.getName());
-        claims.put("id",m.getId());
+        claims.put("loginId", m.getEmail());
+        claims.put("name", m.getName());
+        claims.put("id", m.getId());
         return doGenerateToken(claims, "id");
     }
+
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setHeaderParam("typ","JWT")
+                .setHeaderParam("typ", "JWT")
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -46,11 +50,13 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
                 .compact();
     }
+
     // Principal 반환
     public Authentication getAuthentication(MemberDetail userDetails) {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
-    public MemberDetail getMemberDetail(String token){
+
+    public MemberDetail getMemberDetail(String token) {
         int id = Integer.parseInt(getUserPk(token));
         Member member = repo.findById(id).get();
         return new MemberDetail(member);
@@ -70,7 +76,8 @@ public class JwtProvider {
             return false;
         }
     }
-    public void setAuthHeader(HttpServletResponse response,String token){
-        response.setHeader("Authorization","Bearer "+token);
+
+    public void setAuthHeader(HttpServletResponse response, String token) {
+        response.setHeader("Authorization", "Bearer " + token);
     }
 }

@@ -1,11 +1,11 @@
 package hanghae99.clonecoding.airbnb.entity;
 
+import hanghae99.clonecoding.airbnb.dto.MainPageHotelInfoDto;
 import hanghae99.clonecoding.airbnb.dto.registerHotelDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -41,7 +41,6 @@ public class Hotel extends TimeStamp {
     @Column
     private String mainImage;
 
-    //20220620 호텔 엔티티 수정으로 인한 추가
     @Column
     private int bedRoomCount;
 
@@ -50,9 +49,9 @@ public class Hotel extends TimeStamp {
 
     @Column
     private int bathRoomCount;
-    //---------
+
     @ElementCollection
-    @CollectionTable(name="images",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
+    @CollectionTable(name = "images", joinColumns = {@JoinColumn(name = "hotel_id", referencedColumnName = "id")})
     @Column
     @Builder.Default
     private List<String> images = new ArrayList<>();
@@ -96,10 +95,10 @@ public class Hotel extends TimeStamp {
     private int servicePrice;
 
     @Column
-    private int checkInTime;
+    private int checkInTime = 15;
 
     @Column
-    private int checkOutTime;
+    private int checkOutTime = 11;
 
     @Column(columnDefinition = "double default 0")
     private double score;
@@ -112,11 +111,11 @@ public class Hotel extends TimeStamp {
     @Builder.Default
     private List<Category> categories = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     private List<Facility> facilities = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
@@ -127,88 +126,63 @@ public class Hotel extends TimeStamp {
 
     //이미지 삭제를 위해 추가
     @ElementCollection
-    @CollectionTable(name="imagesFileName",joinColumns = {@JoinColumn(name = "hotel_id",referencedColumnName = "id")})
+    @CollectionTable(name = "imagesFileName", joinColumns = {@JoinColumn(name = "hotel_id", referencedColumnName = "id")})
     @Column
     @Builder.Default
     private List<String> imagesFileName = new ArrayList<>();
 
-    public String getCheckInTime(){
-        if(checkInTime / 12 == 0){
+    public String getCheckInTime() {
+        if (checkInTime / 12 == 0) {
             return "오전 " + checkInTime + ":00 이후"; // "시" 라고 표현한것을 airbnb 사이트와 일치하게 보여주기 위해 00:00 이후 라고 표현 (팀원과 상의 필요)
-        }else{
-            return "오후 " + (checkInTime-12)+ ":00 이후";
+        } else {
+            return "오후 " + (checkInTime - 12) + ":00 이후";
         }
     }
-    public String getCheckOutTime(){
-        if(checkOutTime / 12 == 0){
+
+    public String getCheckOutTime() {
+        if (checkOutTime / 12 == 0) {
             return "오전 " + checkOutTime + ":00";
-        }else{
-            return "오후 " + (checkOutTime-12) + ":00";
+        } else {
+            return "오후 " + (checkOutTime - 12) + ":00";
         }
     }
 
     //숙소 등록
-    public Hotel(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories){
+    public Hotel(Member host, String mainImageUrl, String mainImageFileName, List<String> imagesUrl, List<String> imagesFileName, registerHotelDto dto, List<Facility> facilities, List<Category> categories) {
 
         this.mainImage = mainImageUrl;
         this.mainImageFileName = mainImageFileName;
-
-        this.imagesFileName = imagesFileName;
         this.images = imagesUrl;
-
+        this.imagesFileName = imagesFileName;
         this.title = dto.getTitle();
         this.address = dto.getAddress();
         this.description = dto.getDescription();
         this.type = dto.getType();
-
-        //bedrooms
-        this.bedRoomCount = dto.getBedRoomCount();
-        this.bedCount = dto.getBedCount();
-        this.bathRoomCount = dto.getBathRoomCount();
-
-        this.facilities = facilities;
-        this.categories = categories;
-
-//        this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
         this.minDate = dto.getMinDate();
         this.maxDate = dto.getMaxDate();
+        this.host = host;
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
-//        this.checkInTime = dto.getCheckInTime();
-//        this.checkOutTime = dto.getCheckOutTime();
+        this.facilities = facilities;
+        this.categories = categories;
     }
 
     //숙소 수정
-    public void Update(String mainImageUrl,String mainImageFileName , List<String> imagesUrl,List<String> imagesFileName,registerHotelDto dto,List<Facility> facilities,List<Category> categories){
-
-        if(mainImageUrl != null) {
-            this.mainImage = mainImageUrl;
-            this.mainImageFileName = mainImageFileName;
-        }
-
-        if(!imagesUrl.isEmpty()) {
-            this.images = imagesUrl;
-            this.imagesFileName = imagesFileName;
-        }
+    public void Update(String mainImageUrl, String mainImageFileName, List<String> imagesUrl, List<String> imagesFileName, registerHotelDto dto, List<Facility> facilities, List<Category> categories) {
+        if (mainImageUrl != null) this.mainImage = mainImageUrl;
+        if (!imagesUrl.isEmpty()) this.images = imagesUrl;
 
         this.title = dto.getTitle();
         this.address = dto.getAddress();
         this.description = dto.getDescription();
         this.type = dto.getType();
-
-
-        this.bedRoomCount = dto.getBedRoomCount();
-        this.bedCount = dto.getBedCount();
-        this.bathRoomCount = dto.getBathRoomCount();
-
-        this.categories = categories;
-        this.facilities = facilities;
-//        this.traffic = dto.getTraffic();
         this.region = dto.getRegion();
+        this.mainImageFileName = mainImageFileName;
+        this.images = imagesUrl;
         this.maxGuest = dto.getMaxGuest();
         this.minGuest = dto.getMinGuest();
         this.minDate = dto.getMinDate();
@@ -216,12 +190,9 @@ public class Hotel extends TimeStamp {
         this.defaultPrice = dto.getDefaultPrice();
         this.cleanPrice = dto.getCleanPrice();
         this.servicePrice = dto.getServicePrice();
-//        this.checkInTime = dto.getCheckInTime();
-//        this.checkOutTime = dto.getCheckOutTime();
     }
 
-    public void addCategory(Category category){
+    public void addCategory(Category category) {
         this.categories.add(category);
     }
-
 }

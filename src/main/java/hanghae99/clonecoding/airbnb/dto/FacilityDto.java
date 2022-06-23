@@ -7,7 +7,8 @@ import lombok.Getter;
 public class FacilityDto {
     private int id;
     private String name;
-    public FacilityDto(Facility facility){
+
+    public FacilityDto(Facility facility) {
         this.id = facility.getId();
         this.name = facility.getName();
     }

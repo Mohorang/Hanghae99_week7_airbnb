@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private int id;
     private String category;
-    public CategoryDto(Category category){
+
+    public CategoryDto(Category category) {
         this.id = category.getId();
         this.category = category.getCategory();
     }

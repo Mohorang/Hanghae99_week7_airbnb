@@ -18,8 +18,9 @@ public class MemberService {
 
     private final EmailService emailService;
     private final MemberRepository memberRepo;
+
     public String checkEmail(String email) throws MessagingException {
-        if(memberRepo.checkEmail(email) != 0)
+        if (memberRepo.checkEmail(email) != 0)
             throw new IllegalArgumentException("");
         String randomString = RandomString.make(6);
         AuthMailDto mailDto = AuthMailDto.builder()
